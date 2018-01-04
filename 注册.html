@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/logo.css"/>
+		<script src="js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="top"><a href="#">LOGO</a></div>
+		<div class="down">
+			<ul>
+				<li><img src="img/dllogo.png"/></li>
+				<li>Login Into Your Account</li>
+				<li>
+					<input type="text" placeholder="User Name" class="name"/>
+					<p></p>
+				</li>
+				<li>
+					<input type="text" placeholder="Password" class="pass"/>
+					<p class="xx"></p>
+				</li>
+				<li>Sign In</li>
+				<li>
+					<input type="checkbox"/>
+					<span>Remember Me</span>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var reg = /^[A-z]+\w{5,9}$/;
+		var reg1 = /^\w{6,12}$/;
+		//第一个框失去焦点时间	
+		$(".name").blur(function(){
+			//如果没有通过正则验证
+			if(reg.test($(this).val())!=true){
+				//让它的边框变红
+				$(this).css("border","1px solid red");
+			}else{
+				//否则不变
+				$(this).css("border","")
+			}
+		})
+		//第二个框失去焦点时间
+		$(".pass").blur(function(){
+			//如果没有通过正则验证
+			if(reg1.test($(this).val())!=true){
+				//让它的边框变红
+				$(this).css("border","1px solid red")
+			}else{
+				//否则不变
+				$(this).css("border","")
+			}
+		})
+		
+		$("li:contains('Sign In')").click(function(){
+			if(reg.test($(".name").val())&&reg1.test($(".pass").val())){
+				$.ajax({
+					type:"post",
+					url:"http://47.92.37.168/luntai/php/index.php?C=Login&M=sign",
+					data:{
+						username:$(".name").val(),
+						password:$(".pass").val()
+					},
+					dataType:"json",
+					success:function(data){
+						sessionStorage.setItem("username",$(".name").val());
+						sessionStorage.setItem("password",$(".pass").val());
+						location.href = "logo.html"
+					}
+				})
+			}
+		})
+	</script>
+</html>
